@@ -1,4 +1,3 @@
-// pages/dashboard.tsx
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { onAuthStateChanged } from "firebase/auth";
@@ -10,6 +9,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [archetypes, setArchetypes] = useState<string[]>([]);
   const [name, setName] = useState("");
+  const [lightningAddress, setLightningAddress] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -25,6 +25,7 @@ export default function DashboardPage() {
         const data = docSnap.data();
         setName(data.name);
         setArchetypes(data.archetypes || []);
+        setLightningAddress(data.lightningAddress || "");
       }
 
       setLoading(false);
@@ -38,20 +39,32 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto mt-12 px-6 space-y-6">
-      <h1 className="text-3xl font-bold text-center text-white mb-6">
-        Welcome back, {name} 🌸
-      </h1>
+    <div className="max-w-3xl mx-auto mt-12 px-6 space-y-6 text-white">
+      <h1 className="text-3xl font-bold text-center mb-2">Welcome back, {name} 🌸</h1>
+
+      {lightningAddress && (
+        <p className="text-sm text-purple-300 text-center">
+          Gift BTC to{" "}
+          <a
+            href={`https://lightningaddress.com/${lightningAddress}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            {lightningAddress}
+          </a>
+        </p>
+      )}
 
       {archetypes.includes("Prompt Receiver") && (
         <section className="p-5 rounded-xl bg-purple-700 text-white shadow-lg hover:shadow-purple-500/50 transition">
           <h2 className="text-xl font-bold">🌼 Receive a Portal</h2>
           <p className="text-sm opacity-90">
-            This is your place to receive prompts, blessings, or invitations. You don't need to give anything — just be here.
+            Receive prompts, blessings, and resonance. You don’t need to give anything — just be.
           </p>
           <button
             onClick={() => router.push("/portals")}
-            className="mt-3 px-4 py-2 bg-white text-black font-medium rounded shadow hover:bg-opacity-90 transition"
+            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
           >
             Begin
           </button>
@@ -66,7 +79,7 @@ export default function DashboardPage() {
           </p>
           <button
             onClick={() => router.push("/projects/create")}
-            className="mt-3 px-4 py-2 bg-white text-black font-medium rounded shadow hover:bg-opacity-90 transition"
+            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
           >
             Begin
           </button>
@@ -81,7 +94,7 @@ export default function DashboardPage() {
           </p>
           <button
             onClick={() => router.push("/events/create")}
-            className="mt-3 px-4 py-2 bg-white text-black font-medium rounded shadow hover:bg-opacity-90 transition"
+            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
           >
             Begin
           </button>
@@ -96,7 +109,7 @@ export default function DashboardPage() {
           </p>
           <button
             onClick={() => router.push("/sessions/manage")}
-            className="mt-3 px-4 py-2 bg-white text-black font-medium rounded shadow hover:bg-opacity-90 transition"
+            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
           >
             Begin
           </button>
@@ -111,7 +124,7 @@ export default function DashboardPage() {
           </p>
           <button
             onClick={() => router.push("/threads")}
-            className="mt-3 px-4 py-2 bg-white text-black font-medium rounded shadow hover:bg-opacity-90 transition"
+            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
           >
             Enter
           </button>

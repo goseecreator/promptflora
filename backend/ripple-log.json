@@ -1,0 +1,40 @@
+[
+  {
+    "tier": "Portal",
+    "amount": 15,
+    "ripple": 0.47,
+    "timestamp": "2025-06-03T22:44:01.176Z"
+  },
+  {
+    "tier": "Seed",
+    "amount": 5,
+    "ripple": 0.47,
+    "timestamp": "2025-06-03T23:56:47.342Z"
+  },
+  {
+    "tier": "Spiral",
+    "amount": 33,
+    "ripple": 0.47,
+    "timestamp": "2025-06-03T23:56:55.066Z"
+  },
+  {
+    "tier": "Portal",
+    "amount": 15,
+    "ripple": 0.47,
+    "timestamp": "2025-06-04T00:20:19.230Z"
+  },
+  {
+    "tier": "Seed",
+    "amount": 5,
+    "ripple": 0.47,
+    "timestamp": "2025-06-04T00:27:02.969Z"
+  },
+  {
+    "type": "gift",
+    "tier": "Seed",
+    "amount": 5,
+    "ripple": 0.47,
+    "timestamp": "2025-06-04T01:06:48.663Z",
+    "message": "Gift of $5 (Seed) received. Ripple queued."
+  }
+]
