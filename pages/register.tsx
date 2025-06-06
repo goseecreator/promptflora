@@ -1,5 +1,5 @@
 // pages/register.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
@@ -15,12 +15,32 @@ const archetypeOptions = [
 
 export default function RegisterPage() {
   const router = useRouter();
+  const { intent } = router.query;
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [archetypes, setArchetypes] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const intentMap = {
+    receive: "Prompt Receiver",
+    share: "Project Holder",
+    hold: "Session Host",
+    witness: "Witness Only"
+  };
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (intent === "receive") {
+      setArchetypes(["Prompt Receiver"]);
+    } else if (intent === "share") {
+      setArchetypes(["Project Holder"]);
+    } else if (intent === "hold") {
+      setArchetypes(["Session Host"]);
+    } else if (intent === "witness") {
+      setArchetypes(["Witness Only"]);
+    }
+  }, [intent]);
 
   const toggleArchetype = (role: string) => {
     setArchetypes(prev =>
@@ -67,7 +87,7 @@ export default function RegisterPage() {
         <input
           type="text"
           placeholder="Your Name"
-          className="w-full p-2 border rounded text-gray-500"
+          className="w-full p-2 border rounded text-white bg-gray-800"
           value={name}
           onChange={e => setName(e.target.value)}
           required
@@ -75,7 +95,7 @@ export default function RegisterPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 border rounded text-gray-500"
+          className="w-full p-2 border rounded text-white bg-gray-800"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
@@ -83,17 +103,23 @@ export default function RegisterPage() {
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 border rounded text-gray-500"
+          className="w-full p-2 border rounded text-white bg-gray-800"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
         />
 
         <div>
+          {intent && (
+            <p className="text-sm text-purple-300 italic mb-2">
+              You’re arriving as a <strong>{intent}</strong>. We’ve selected a starting archetype for you.
+            </p>
+          )}
           <p className="font-medium mb-2">Choose Your Archetypes:</p>
           <div className="flex flex-wrap gap-3 mb-4">
             {archetypeOptions.map(role => (
-              <label key={role} className="flex items-center space-x-2">
+              
+              <label key={role} className={`flex items-center space-x-2 rounded px-2 py-1 ${intentMap[intent] && role === intentMap[intent] ? 'border border-pink-500 bg-gray-800' : ''}`}>
                 <input
                   type="checkbox"
                   checked={archetypes.includes(role)}
@@ -104,7 +130,7 @@ export default function RegisterPage() {
             ))}
           </div>
 
-          <div className="text-sm text-gray-400 space-y-1 border-t pt-3">
+          <div className="text-sm text-gray-700 space-y-1 border-t pt-3">
             <p><strong>🌸 Prompt Receiver</strong> — Arrive and receive. No need to offer anything. Your presence is enough.</p>
             <p><strong>🌿 Project Holder</strong> — You’re stewarding an idea, story, or build. You may invite others into it.</p>
             <p><strong>🔥 Event Weaver</strong> — You create temporal gatherings or ritual containers others may enter.</p>

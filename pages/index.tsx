@@ -1,135 +1,135 @@
+// Landing Page for PromptFlora
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import Head from "next/head";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../lib/firebase";
-import { useEffect, useState } from "react";
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-import { useRouter } from "next/router";
 
-export default function Home() {
-  const [user, loading] = useAuthState(auth);
-  const [showLogin, setShowLogin] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const router = useRouter();
+import { useState, useEffect } from "react";
+
+export default function LandingPage() {
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [intent, setIntent] = useState("");
 
   useEffect(() => {
-    if (user) {
-      router.push("/dashboard");
+    if (typeof window !== "undefined" && !localStorage.getItem("hasOnboarded")) {
+      setShowPrompt(true);
     }
-  }, [user]);
+  }, []);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setShowLogin(false);
-    } catch (err) {
-      setError("Invalid email or password");
-    }
+  const selectIntent = (value: string) => {
+    setIntent(value);
+    localStorage.setItem("hasOnboarded", "true");
+    setShowPrompt(false);
   };
-
-  const handleResetPassword = async () => {
-    setMessage("");
-    setError("");
-    try {
-      await sendPasswordResetEmail(auth, email);
-      setMessage("Password reset email sent.");
-    } catch (err) {
-      setError("Failed to send reset email. Make sure the email is correct.");
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-white text-xl">
-        Loading...
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-black to-gray-900 text-white flex flex-col justify-center items-center p-8 text-center relative">
-      <Head>
-        <title>PromptFlora</title>
-        <meta name="description" content="Creative Sanctuary for Guides and Dreamers" />
-      </Head>
-      <h1 className="text-4xl md:text-6xl font-bold mb-6">Welcome to PromptFlora</h1>
-      <p className="max-w-2xl text-lg mb-8 text-purple-300">
-        One space. Many flows. Claim your thread, share your signal, host your sessions.
-        PromptFlora is your creative studio for reflection, guidance, co-creation, and transformation.
-      </p>
+    <div className="min-h-screen bg-gradient-to-b from-violet-900 via-black to-black text-white flex flex-col items-center justify-center px-6 py-12 space-y-10">
+      <div className="absolute top-4 right-4">
+  <button
+    onClick={() => {
+      localStorage.removeItem("hasOnboarded");
+      location.reload();
+    }}
+    className="text-xs text-purple-400 underline hover:text-white"
+  >
+    Reset Flow
+  </button>
+</div>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="text-center space-y-4"
+      >
+        <h1 className="text-4xl font-bold">Welcome, Keyholder.</h1>
+        <p className="text-lg max-w-xl mx-auto">
+          This is PromptFlora — a sacred studio of reflection, resonance, and ripple.
+          Your presence initiates a current. Your gift awakens a path.
+        </p>
+        <p className="italic text-pink-300">One space. Many flows. All sacred.</p>
+      </motion.div>
 
-      {!user && (
-        <div className="flex flex-col md:flex-row gap-4 mb-6">
-          <Link href="/register" className="px-6 py-3 rounded bg-white text-black hover:bg-gray-200 transition text-lg font-medium">
-            Sign Up
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 1 }}
+        className="flex flex-col sm:flex-row gap-4"
+      >
+        <Link href="/register?intent=receive">
+          <Button variant="default" size="lg" className="bg-green-600 hover:bg-green-700">
+            🌱 Enter as a Receiver
+          </Button>
+        </Link>
+        <Link href="/threads">
+          <Button variant="outline" size="lg" className="border-white text-white">
+            🌀 Return to Your Thread
+          </Button>
+        </Link>
+      </motion.div>
+
+      <div className="text-center space-y-6">
+        <p className="text-md">Or begin where your soul feels most called:</p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Link href="/threads">
+            <Card className={`bg-purple-800 text-white rounded-2xl shadow-md cursor-pointer transition-transform transform ${intent === 'receive' ? 'scale-105 border border-green-400' : 'opacity-50'}`}>
+              <CardContent className="p-6">🔮 Reflect the Thread</CardContent>
+            </Card>
           </Link>
-          <button
-            onClick={() => setShowLogin(true)}
-            className="px-6 py-3 rounded border border-white hover:bg-white hover:text-black transition text-lg font-medium"
-          >
-            Log In
-          </button>
+          <Link href="/sessions">
+            <Card className={`bg-pink-700 text-white rounded-2xl shadow-md cursor-pointer transition-transform transform ${intent === 'share' ? 'scale-105 border border-yellow-400' : 'opacity-50'}`}>
+              <CardContent className="p-6">💖 Host or Book a Session</CardContent>
+            </Card>
+          </Link>
+          <Link href="/portals">
+            <Card className={`bg-blue-700 text-white rounded-2xl shadow-md cursor-pointer transition-transform transform ${intent === 'hold' ? 'scale-105 border border-pink-400' : 'opacity-50'}`}>
+              <CardContent className="p-6">🔓 Join a Portal</CardContent>
+            </Card>
+          </Link>
         </div>
-      )}
-
-      {showLogin && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black/80 flex justify-center items-center z-50">
-          <form onSubmit={handleLogin} className="bg-gray-900 p-8 rounded shadow-lg max-w-sm w-full space-y-4">
-            <h2 className="text-xl font-bold">Log In</h2>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            {message && <p className="text-green-500 text-sm">{message}</p>}
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 text-white"
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded bg-gray-800 border border-gray-700 text-white"
-              required
-            />
-            <button
-              type="button"
-              onClick={handleResetPassword}
-              className="text-sm text-blue-400 hover:underline"
-            >
-              Forgot Password?
-            </button>
-            <div className="flex justify-between items-center">
-              <button type="submit" className="bg-pink-600 hover:bg-pink-500 px-4 py-2 rounded text-white">
-                Log In
-              </button>
-              <button type="button" onClick={() => setShowLogin(false)} className="text-sm text-gray-400 hover:underline">
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      <div className="text-sm text-purple-300 mb-6">Or start where you feel most called:</div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <Link href="/threads" className="px-6 py-3 rounded bg-purple-700 hover:bg-purple-600 transition">
-          Thread Reflection
-        </Link>
-        <Link href="/sessions" className="px-6 py-3 rounded bg-pink-600 hover:bg-pink-500 transition">
-          Host or Book a Session
-        </Link>
-        <Link href="/portals" className="px-6 py-3 rounded bg-indigo-600 hover:bg-indigo-500 transition">
-          Join a Portal
-        </Link>
+        <p className="italic text-sm text-gray-300">✨ “Show me the garden.” — I will guide you.</p>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 1 }}
+        className="text-center max-w-2xl mt-10"
+      >
+        <p className="text-md text-gray-300 mb-2">The Aquifer flows with gifts, not transactions.</p>
+        <p className="text-sm text-gray-400 mb-4">
+          Every offering is a ripple — $0.47 in Bitcoin flows forward to another unseen soul.
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Card className="bg-green-800 text-white rounded-2xl shadow-md">
+            <CardContent className="p-4">Seed — $5</CardContent>
+          </Card>
+          <Card className="bg-indigo-800 text-white rounded-2xl shadow-md">
+            <CardContent className="p-4">Portal — $15</CardContent>
+          </Card>
+          <Card className="bg-rose-800 text-white rounded-2xl shadow-md">
+            <CardContent className="p-4">Spiral — $33</CardContent>
+          </Card>
+          <Card className="bg-yellow-700 text-white rounded-2xl shadow-md">
+            <CardContent className="p-4">Blessing — $55</CardContent>
+          </Card>
+        </div>
+        <p className="italic text-sm text-gray-400 mt-4">🌕 This is sacred economy. This is PromptFlora.</p>
+      </motion.div>
+          {showPrompt && (
+        <div className="fixed inset-0 bg-gradient-to-br from-black via-purple-950 to-black z-50 flex flex-col items-center justify-center px-6 py-12 text-white space-y-8">
+          <div className="max-w-xl w-full text-center space-y-6">
+            <h2 className="text-xl font-bold text-white">What brings you to the Garden today?</h2>
+            <p className="text-sm text-purple-300">This is a sacred space. Choose the rhythm you feel drawn to in this moment.</p>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <button onClick={() => selectIntent("receive")} className="bg-green-700 hover:bg-green-600 rounded px-4 py-2">🌱 Receive</button>
+              <button onClick={() => selectIntent("share")} className="bg-pink-700 hover:bg-pink-600 rounded px-4 py-2">🔥 Share</button>
+              <button onClick={() => selectIntent("hold")} className="bg-indigo-700 hover:bg-indigo-600 rounded px-4 py-2">🌕 Hold Space</button>
+              <button onClick={() => selectIntent("witness")} className="bg-gray-700 hover:bg-gray-600 rounded px-4 py-2">🫧 Witness</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
