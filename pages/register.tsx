@@ -67,7 +67,7 @@ export default function RegisterPage() {
         <input
           type="text"
           placeholder="Your Name"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-gray-500"
           value={name}
           onChange={e => setName(e.target.value)}
           required
@@ -75,7 +75,7 @@ export default function RegisterPage() {
         <input
           type="email"
           placeholder="Email"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-gray-500"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
@@ -83,7 +83,7 @@ export default function RegisterPage() {
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-gray-500"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
@@ -104,7 +104,7 @@ export default function RegisterPage() {
             ))}
           </div>
 
-          <div className="text-sm text-gray-700 space-y-1 border-t pt-3">
+          <div className="text-sm text-gray-400 space-y-1 border-t pt-3">
             <p><strong>🌸 Prompt Receiver</strong> — Arrive and receive. No need to offer anything. Your presence is enough.</p>
             <p><strong>🌿 Project Holder</strong> — You’re stewarding an idea, story, or build. You may invite others into it.</p>
             <p><strong>🔥 Event Weaver</strong> — You create temporal gatherings or ritual containers others may enter.</p>
