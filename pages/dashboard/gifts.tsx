@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { auth, db } from "../../lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { Gift } from "@/types/gift";
 
 export default function GiftHistory() {
   const [user] = useAuthState(auth);
-  const [gifts, setGifts] = useState([]);
+  const [gifts, setGifts] = useState<Gift[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,7 +46,6 @@ export default function GiftHistory() {
               <p className="text-lg font-semibold text-pink-400">{gift.portalName}</p>
               <p className="text-sm text-purple-300">Tier: {gift.tier}</p>
               <p className="text-sm text-gray-400">Tags: {gift.portalTags?.join(", ")}</p>
-              <p className="text-xs text-gray-500 mt-1">Blessed at: {gift.giftedAt?.toDate?.().toLocaleString?.() || "Unknown time"}</p>
               <button className="mt-3 px-4 py-1 rounded bg-blue-700 hover:bg-blue-600 text-sm text-white">Let the Ripple Flow</button>
             </li>
           ))}
