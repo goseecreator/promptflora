@@ -4,18 +4,23 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import PortalGiftingSection from "../../components/PortalGiftingSection";
 
-type Portal = {
+export type Tier = {
+  name: string;
+  description: string;
+  amount: number;
+};
+
+export type Portal = {
   id?: string;
   name: string;
   description: string;
   overview: string;
   tags: string[];
-  tiers: {
-    name: string;
-    description: string;
-    amount: number;
-  }[];
+  status: string;
+  tiers: Tier[];
 };
+
+
 
 
 export default function PortalProfilePage() {
@@ -33,8 +38,13 @@ export default function PortalProfilePage() {
         const ref = doc(db, "portals", id as string);
         const snap = await getDoc(ref);
         if (snap.exists()) {
-          setPortal({ id: snap.id, ...(snap.data() as Portal) });
-        }
+          const data = snap.data() as Omit<Portal, "id">;
+          setPortal({
+            id: snap.id,
+            ...data,
+            status: data.status ?? "UPCOMING" // fallback if missing
+          });
+                  }
       } catch (error) {
         console.error("Error fetching portal:", error);
       } finally {
