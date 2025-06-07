@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import { useRouter } from "next/router";
 
 type SessionMeta = {
   name: string;
@@ -21,7 +20,6 @@ type AvailabilityData = {
 const SESSION_TYPES = ["All", "Reflection", "Co-Creation", "Guidance", "Integration"];
 
 export default function PublicSessionsPage() {
-  const router = useRouter();
   const [availabilityData, setAvailabilityData] = useState<AvailabilityData[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState("All");

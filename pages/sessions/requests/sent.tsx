@@ -5,8 +5,18 @@ import { auth, db } from "../../../lib/firebase";
 import { Toaster, toast } from "react-hot-toast";
 
 export default function SentSessionRequestsPage() {
-  const [requests, setRequests] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  type SessionRequest = {
+    id: string;
+    hostId: string;
+    requesterId: string;
+    day: string;     // ✅ Add this line
+    time: string;
+    status: string;
+  };
+  
+  
+  const [requests, setRequests] = useState<SessionRequest[]>([]);
+    const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -14,8 +24,11 @@ export default function SentSessionRequestsPage() {
 
       const q = query(collection(db, "sessionRequests"), where("requesterId", "==", user.uid));
       const snapshot = await getDocs(q);
-      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setRequests(data);
+      const data = snapshot.docs.map((doc) => {
+        const raw = doc.data() as Omit<SessionRequest, "id">;
+        return { id: doc.id, ...raw };
+      });
+            setRequests(data);
       setLoading(false);
     });
   }, []);
@@ -26,8 +39,10 @@ export default function SentSessionRequestsPage() {
       setRequests((prev) => prev.filter((req) => req.id !== id));
       toast.success("Your request has been cancelled.");
     } catch (error) {
+      console.error("Cancel error:", error);
       toast.error("Oops—something went wrong cancelling this.");
     }
+    
   };
 
   if (loading) return <p className="text-white text-center mt-10">Loading your requests...</p>;

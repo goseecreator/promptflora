@@ -21,3 +21,11 @@ done
 
 echo ""
 echo "💡 Tip: Run 'npx npm-check-updates -u && npm install' to apply updates."
+
+#chmod +x tools/check-full-site-maintenance.sh
+#./tools/check-full-site-maintenance.sh
+#chmod +x means “make this file executable”
+
+#It gives your shell permission to run the .sh script like a program
+
+#You only need to do this once (or after cloning the repo again)

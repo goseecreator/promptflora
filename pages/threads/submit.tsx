@@ -7,7 +7,7 @@ export default function ThreadSubmitPage() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSending(true);
     try {
@@ -36,7 +36,7 @@ export default function ThreadSubmitPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <textarea
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
             rows={6}
             placeholder="Your reflection..."
             className="w-full p-4 rounded bg-gray-800 text-white placeholder-purple-300"

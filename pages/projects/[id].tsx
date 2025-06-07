@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { Project, UserProfile } from "../../types/types";
+import Link from "next/link";
+
 
 export default function ProjectDetailPage() {
   const router = useRouter();
@@ -86,9 +88,9 @@ export default function ProjectDetailPage() {
       </p>
 
       <div className="mt-6">
-        <a href="/projects" className="text-blue-300 underline">
+      <Link href="/projects">
           ← Back to Projects
-        </a>
+          </Link>
       </div>
     </div>
   );

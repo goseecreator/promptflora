@@ -4,11 +4,25 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import PortalGiftingSection from "../../components/PortalGiftingSection";
 
+type Portal = {
+  id?: string;
+  name: string;
+  description: string;
+  overview: string;
+  tags: string[];
+  tiers: {
+    name: string;
+    description: string;
+    amount: number;
+  }[];
+};
+
+
 export default function PortalProfilePage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [portal, setPortal] = useState(null);
+  const [portal, setPortal] = useState<Portal | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,10 +30,10 @@ export default function PortalProfilePage() {
 
     const fetchPortal = async () => {
       try {
-        const ref = doc(db, "portals", id);
+        const ref = doc(db, "portals", id as string);
         const snap = await getDoc(ref);
         if (snap.exists()) {
-          setPortal(snap.data());
+          setPortal({ id: snap.id, ...(snap.data() as Portal) });
         }
       } catch (error) {
         console.error("Error fetching portal:", error);

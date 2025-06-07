@@ -4,6 +4,8 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { UserProfile } from "../../types/types";
+import Link from "next/link";
+
 
 const archetypeOptions = [
   "Prompt Receiver",
@@ -116,10 +118,9 @@ export default function SettingsPage() {
           Save Changes
         </button>
 
-        <a href="/dashboard" className="block mt-6 text-blue-300 underline">
+        <Link href="/dashboard">
           ← Back to Dashboard
-        </a>
-      </div>
+          </Link>      </div>
     </div>
   );
 }

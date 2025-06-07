@@ -1,21 +1,17 @@
 import { useState } from "react";
+import { Portal } from "@/types/portal";
 
-export default function PortalGiftingSection() {
-  const portal = {
-    name: "The PromptFlora Grove",
-    tiers: [
-      { name: "Seed", description: "A gentle nod to the vision", amount: 5 },
-      { name: "Flora", description: "A blooming echo of gratitude", amount: 18 },
-      { name: "Grove", description: "Deep alignment with the mission", amount: 47 }
-    ]
-  };
+type Props = {
+  portal: Portal;
+};
 
-  const [selectedTier, setSelectedTier] = useState(null);
+export default function PortalGiftingSection({ portal }: Props) {
+  const [selectedTier, setSelectedTier] = useState<Portal["tiers"][0] | null>(null);
 
   const handleGift = async () => {
     if (!selectedTier) return;
     alert(`You’ve chosen to gift the ${selectedTier.name} tier. 🌱`);
-    // TODO: Add Firestore gift logic here
+    setSelectedTier(null);
   };
 
   return (

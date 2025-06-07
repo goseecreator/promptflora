@@ -1,27 +1,43 @@
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../lib/firebase";
-import { collection, query, where, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import { SessionRequest } from "@/types/session";
 
 export default function SessionRequestsPage() {
   const [user] = useAuthState(auth);
-  const [requests, setRequests] = useState([]);
+  const [requests, setRequests] = useState<SessionRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchRequests = async () => {
     if (!user) return;
     const q = query(collection(db, "sessionRequests"), where("hostId", "==", user.uid));
     const snapshot = await getDocs(q);
-    const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    setRequests(data);
+    const data = snapshot.docs.map((doc) => {
+      const raw = doc.data() as Omit<SessionRequest, "id">;
+      return { id: doc.id, ...raw };
+    });
+        setRequests(data);
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchRequests();
+    const fetch = async () => {
+      if (!user) return;
+      const q = query(collection(db, "sessionRequests"), where("hostId", "==", user.uid));
+      const snapshot = await getDocs(q);
+      const data = snapshot.docs.map((doc) => {
+        const raw = doc.data() as Omit<SessionRequest, "id">;
+        return { id: doc.id, ...raw };
+      });
+      setRequests(data);
+      setLoading(false);
+    };
+    fetch();
   }, [user]);
+  
 
-  const updateStatus = async (id, status) => {
+  const updateStatus = async (id: string, status: string) => {
     await updateDoc(doc(db, "sessionRequests", id), { status });
     fetchRequests();
   };

@@ -1,5 +1,5 @@
 import React from "react";
-import EchoList from "../../components/EchoList";
+import EchoList from "@/components/EchoList";
 
 
 
@@ -13,9 +13,7 @@ export default function SacredThread() {
             A place to receive echoes, reflect with presence, and witness subtle transmission.
           </p>
         </header>
-        <h2 className="text-lg font-semibold text-white mb-4">Recent Echoes</h2>
-<EchoList />
-
+        
 
         <section className="text-center text-purple-100 max-w-xl mx-auto space-y-4">
           <p>You’ve arrived in the sacred thread.</p>
@@ -23,6 +21,9 @@ export default function SacredThread() {
           <p>No account needed. No action required.</p>
           <p>Just witness. Just be.</p>
         </section>
+        <section className="mt-12 max-w-2xl mx-auto">
+  <EchoList />
+</section>
 
         <section className="mt-10 border-t border-purple-700 pt-8">
           <p className="text-sm text-purple-400 text-center">
