@@ -12,10 +12,15 @@ export default function ProjectListPage() {
     const fetchProjects = async () => {
       const q = query(collection(db, "projects"), where("isPublic", "==", true));
       const snapshot = await getDocs(q);
-      const results = snapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      })) as Project[];
+      const results = snapshot.docs.map((doc) => {
+        const raw = doc.data() as Omit<Project, "id">;
+        return {
+          id: doc.id,
+          ...raw
+        };
+      });
+      
+      
       setProjects(results);
       setLoading(false);
     };

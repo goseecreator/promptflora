@@ -1,14 +1,17 @@
 // types/types.ts
 
-export type Project = {
-    title: string;
-    description: string;
-    tags: string[];
-    resonance: "Open" | "Invite-only" | "Solo holding";
-    isPublic: boolean;
-    createdAt?: any;      // Optional if pulled from Firestore
-    createdBy?: string;   // UID of creator
-  };
+export interface Project {
+  id?: string;
+  title: string;
+  description: string;
+  tags: string[];
+  resonance: string;
+  isPublic: boolean;
+  createdAt?: Date | FirebaseFirestore.Timestamp;
+  ownerId?: string;
+  createdBy?: string; // Added createdBy property
+
+}
   
   export type UserProfile = {
     uid: string;
@@ -16,7 +19,7 @@ export type Project = {
     email: string;
     archetypes: string[];
     lightningAddress?: string;
-    createdAt?: any;
+    createdAt?: Date | FirebaseFirestore.Timestamp;
   };
   
   export type Session = {
