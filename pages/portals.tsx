@@ -2,20 +2,26 @@ import { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Link from "next/link";
+import { Portal } from "@/types/portal";
+
 
 export default function PortalsPage() {
-  const [portals, setPortals] = useState([]);
+  const [portals, setPortals] = useState<Portal[]>([]);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const fetchPortals = async () => {
       const q = query(collection(db, "portals"), where("visibility", "==", "public"));
       const snapshot = await getDocs(q);
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = snapshot.docs.map((doc) => {
+        const raw = doc.data() as Omit<Portal, "id">;
+        return { id: doc.id, ...raw };
+      });
       setPortals(data);
-    };
-    fetchPortals();
-  }, []);
+      };
+  
+      fetchPortals();
+    }, [filter]);
 
   const filteredPortals = filter
     ? portals.filter(p => p.tags?.includes(filter))
@@ -65,5 +71,5 @@ export default function PortalsPage() {
         ))}
       </div>
     </div>
-  );
-}
+  );  
+    }
