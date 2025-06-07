@@ -1,5 +1,5 @@
 import React from "react";
-import EchoList from "../../components/EchoList";
+import EchoList from "@/components/EchoList";
 
 
 
