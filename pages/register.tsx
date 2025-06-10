@@ -7,11 +7,10 @@ import { useIntent } from "@/hooks/useIntent";
 import { useArchetypeFromIntent } from "@/hooks/useArchetypeFromIntent";
 
 const archetypeOptions = [
-  "Prompt Receiver",
-  "Project Holder",
-  "Event Weaver",
-  "Session Host",
-  "Witness Only"
+  { label: "Prompt Receiver", description: "Receives sacred offerings and support." },
+  { label: "Project Holder", description: "Stewards a creative or spiritual project." },
+  { label: "Event Weaver", description: "Hosts ceremonies, gatherings, or workshops." },
+  { label: "Session Host", description: "Holds 1:1 or group sessions for growth." },
 ];
 
 export default function RegisterPage() {
@@ -31,7 +30,6 @@ export default function RegisterPage() {
       setArchetypes([prefillArchetype]);
     }
   }, [prefillArchetype, archetypes]);
-  
 
   const toggleArchetype = (role: string) => {
     setArchetypes((prev) =>
@@ -66,75 +64,77 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 p-6 border rounded-xl shadow text-white">
-      <h1 className="text-2xl font-bold mb-4 text-center">Join PromptFlora 🌸</h1>
+    <div className="min-h-screen bg-gradient-to-b from-lilac-100 via-pink-50 to-white flex items-center justify-center px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-[url('/flora-layer2.png')] bg-repeat-x bg-bottom opacity-10 animate-parallax-slower z-0" />
 
-      {intent && prefillArchetype && (
-        <p className="text-sm text-purple-300 italic mb-4">
-          You’re arriving as a <strong>{intent}</strong>. We’ve selected a starting archetype for you.
-        </p>
-      )}
+      <div className="relative z-10 max-w-md w-full bg-white/90 border border-purple-200 rounded-xl shadow-lg p-8 space-y-6 text-purple-900">
+        <h1 className="text-3xl font-extrabold text-center">🌸 Enter the Garden</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Your Name"
-          className="w-full p-2 border rounded text-white bg-gray-900 placeholder-gray-400"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 border rounded text-white bg-gray-900 placeholder-gray-400"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full p-2 border rounded text-white bg-gray-900 placeholder-gray-400"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        {intent && prefillArchetype && (
+          <p className="text-sm text-purple-500 italic text-center">
+            You’re arriving as a <strong>{intent}</strong>. We've selected a starting archetype.
+          </p>
+        )}
 
-        <div>
-          <p className="font-medium mb-2">Choose Your Archetypes:</p>
-          <div className="flex flex-wrap gap-3 mb-4">
-            {archetypeOptions.map((role) => (
-              <label key={role} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={archetypes.includes(role)}
-                  onChange={() => toggleArchetype(role)}
-                />
-                <span
-                  className={`${
-                    prefillArchetype === role
-                      ? "border-pink-500 bg-gray-800 px-2 py-1 rounded"
-                      : ""
-                  }`}
-                >
-                  {role}
-                </span>
-              </label>
-            ))}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Your Name"
+            className="w-full p-2 border rounded bg-purple-50 border-purple-300 placeholder-purple-400"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-2 border rounded bg-purple-50 border-purple-300 placeholder-purple-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-2 border rounded bg-purple-50 border-purple-300 placeholder-purple-400"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <div>
+            <p className="font-semibold mb-2">Choose Your Archetypes:</p>
+            <div className="flex flex-col gap-3">
+              {archetypeOptions.map(({ label, description }) => (
+                <div key={label} className="flex flex-col gap-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleArchetype(label)}
+                    className={`px-3 py-1 rounded-full border text-left ${
+                      archetypes.includes(label)
+                        ? "bg-purple-200 border-purple-500 text-purple-800 font-semibold"
+                        : "bg-white border-gray-300 text-gray-600"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                  <p className="text-xs text-purple-500 italic ml-2">{description}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <button
-          type="submit"
-          className="w-full py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-          disabled={loading}
-        >
-          {loading ? "Creating..." : "Enter the Garden"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full py-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded hover:brightness-105 transition"
+            disabled={loading}
+          >
+            {loading ? "Planting your seed..." : "Enter the Garden"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

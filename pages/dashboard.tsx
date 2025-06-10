@@ -116,20 +116,6 @@ export default function DashboardPage() {
         </section>
       )}
 
-      {archetypes.includes("Witness Only") && (
-        <section className="p-5 rounded-xl bg-gray-800 text-white shadow-lg hover:shadow-gray-400/40 transition">
-          <h2 className="text-xl font-bold">👁 Gentle Witness</h2>
-          <p className="text-sm opacity-90">
-            You are not here to act or lead — just to observe, reflect, and hold space. That’s sacred.
-          </p>
-          <button
-            onClick={() => router.push("/threads")}
-            className="mt-3 px-4 py-2 bg-white text-black rounded shadow hover:bg-opacity-90 transition"
-          >
-            Enter
-          </button>
-        </section>
-      )}
     </div>
   );
 }

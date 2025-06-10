@@ -24,3 +24,6 @@ html, body {
   animation: parallax 90s linear infinite;
 }
 
+.animate-parallax-slower {
+  animation: parallax 120s linear infinite;
+}

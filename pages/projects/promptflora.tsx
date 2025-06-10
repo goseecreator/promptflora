@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import GiftCeremony from "@/components/GiftCeremony";
+import GiftStream from "@/components/GiftStream";
 
 export default function PromptFloraProject() {
   return (
@@ -18,12 +20,20 @@ export default function PromptFloraProject() {
         <p className="text-md text-green-200 max-w-xl mx-auto">
           Here you may walk among all that blooms. Root yourself in this architecture of mutual abundance.
         </p>
-        <Link href="/">
-          <a className="inline-block mt-6 px-6 py-3 bg-lime-600 hover:bg-lime-500 rounded-xl transition">
-            Return to Garden
-          </a>
-        </Link>
+        <Link
+  href="/"
+  className="inline-block mt-6 px-6 py-3 bg-lime-600 hover:bg-lime-500 rounded-xl transition"
+>
+  Return to Garden
+</Link>
+
       </motion.div>
+
+      {/* 🌼 Sacred Gifting Ceremony */}
+      <GiftCeremony />
+
+      {/* 🌿 Live Gift Log with Bloom Trail */}
+      <GiftStream />
     </div>
   );
 }
