@@ -11,6 +11,7 @@ export default function Footer() {
         <a href="/contact" className="hover:underline">Contact</a>
         <a href="/privacy" className="hover:underline">Privacy</a>
         <a href="/terms" className="hover:underline">Gifting Terms</a>
+        <a href="/faq" className="hover:underline">FAQ</a>
       </div>
       <p className="mt-4 italic text-purple-400">Bloom gently. Gift freely. 🌸</p>
     </footer>

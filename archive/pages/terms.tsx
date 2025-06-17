@@ -24,9 +24,9 @@ export default function TermsPage() {
 
           <p><strong>🚫 Do Not Exploit:</strong> Do not use this platform for commercial marketing, scraping, manipulation, fraud, or extraction. This is not the space for that.</p>
 
-          <p><strong>🌸 Your Role:</strong> If you register, you are holding a seed. Steward it with integrity. If you gift, you do so freely. If you witness, you hold presence with humility.</p>
+          <p><strong>🌸 Your Role:</strong> If you register, you are holding a seed. Steward it with integrity. If you gift, you do so freely. If you witness, you hold presence with humility.&apos;</p>
 
-          <p><strong>📧 Bugs or Concerns:</strong> If something goes wrong, email us at <a href="mailto:bugs@promptflora.org" className="underline">bugs@promptflora.org</a>. Otherwise, we won't contact you and you don’t need to contact us.</p>
+          <p><strong>📧 Bugs or Concerns:</strong> If something goes wrong, email us at <a href="mailto:bugs@promptflora.org" className="underline">bugs@promptflora.org</a>. Otherwise, we won&apos;t contact you and you don’t need to contact us.</p>
 
           <p><strong>🕊️ Disconnection:</strong> You may stop participating at any time. Your presence is always voluntary.</p>
         </div>

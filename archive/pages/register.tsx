@@ -72,7 +72,7 @@ export default function RegisterPage() {
 
         {intent && prefillArchetype && (
           <p className="text-sm text-purple-500 italic text-center">
-            You’re arriving as a <strong>{intent}</strong>. We've selected a starting archetype.
+            You&apos;re arriving as a <strong>{intent}</strong>. We&apos;ve selected a starting archetype.
           </p>
         )}
 

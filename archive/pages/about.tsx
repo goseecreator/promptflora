@@ -19,7 +19,7 @@ export default function AboutPage() {
           Our mission is to restore energetic reciprocity, build trust-based digital temples, and honor intentions with beautiful, intuitive flows.
         </p>
         <p className="text-md text-purple-600">
-          Whether you're offering a gift, planting a vision, or simply bearing witness, PromptFlora welcomes you with presence, grace, and bloom.
+          Whether you&apos;re offering a gift, planting a vision, or simply bearing witness, PromptFlora welcomes you with presence, grace, and bloom.
         </p>
         <Link href="/" className="inline-block mt-8 px-6 py-3 bg-purple-100 hover:bg-purple-200 text-purple-800 rounded-lg transition">
           Return to Garden
