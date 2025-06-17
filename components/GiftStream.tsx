@@ -4,7 +4,13 @@ import { db } from "@/lib/firebase";
 import { collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
 
 export default function GiftStream() {
-  const [gifts, setGifts] = useState<any[]>([]);
+  interface Gift {
+    id: string;
+    tier: string;
+    sats: number;
+  }
+
+  const [gifts, setGifts] = useState<Gift[]>([]);
 
   useEffect(() => {
     async function loadGifts() {
@@ -15,8 +21,11 @@ export default function GiftStream() {
         limit(10)
       );
       const snap = await getDocs(q);
-      setGifts(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    }
+      setGifts(snap.docs.map(doc => ({
+        id: doc.id,
+        ...(doc.data() as Omit<Gift, "id">),
+      })));
+          }
     loadGifts();
   }, []);
 
