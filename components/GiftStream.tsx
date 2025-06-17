@@ -1,15 +1,23 @@
-// components/GiftStream.tsx
 import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
-import { collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs,
+  Timestamp,
+} from "firebase/firestore";
+
+interface Gift {
+  id: string;
+  tier: string;
+  sats: number;
+  createdAt: Timestamp;
+}
 
 export default function GiftStream() {
-  interface Gift {
-    id: string;
-    tier: string;
-    sats: number;
-  }
-
   const [gifts, setGifts] = useState<Gift[]>([]);
 
   useEffect(() => {
@@ -21,11 +29,14 @@ export default function GiftStream() {
         limit(10)
       );
       const snap = await getDocs(q);
-      setGifts(snap.docs.map(doc => ({
-        id: doc.id,
-        ...(doc.data() as Omit<Gift, "id">),
-      })));
-          }
+      setGifts(
+        snap.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Gift, "id">),
+        }))
+      );
+    }
+
     loadGifts();
   }, []);
 
@@ -33,7 +44,7 @@ export default function GiftStream() {
     <div className="mt-8">
       <h2 className="text-xl font-semibold mb-2">Recent Gifts</h2>
       <ul className="space-y-2">
-        {gifts.map(gift => (
+        {gifts.map((gift) => (
           <li key={gift.id} className="bg-white p-3 rounded shadow">
             <strong>{gift.tier}</strong> — <em>{gift.sats} sats</em>
           </li>
